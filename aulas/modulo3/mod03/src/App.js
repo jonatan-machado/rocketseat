@@ -1,16 +1,9 @@
-//importação externo
-import React from "react";
-import { Provider } from "react-redux";
+// imports externos
+import React, { Fragment } from 'react';
 
-//importação interno
-import store from "./store";
-import TodoList from "./TodoList";
+// imports internos
 
-const App = () => (
-  <Provider store={store}>
-    <h1>Hello World</h1>
-    <TodoList />
-  </Provider>
-);
 
-export default App;
+const App =>()
+
+export default App
