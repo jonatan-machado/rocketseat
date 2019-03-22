@@ -1,9 +1,11 @@
-// imports externos
-import React, { Fragment } from 'react';
+import React from "react";
+import { Provider } from "react-redux";
 
-// imports internos
+import store from "./store";
 
-
-const App =>()
-
-export default App
+const App = () => (
+  <Provider store={store}>
+    <h1>Hello World</h1>
+  </Provider>
+);
+export default App;
