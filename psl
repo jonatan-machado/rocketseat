@@ -1,0 +1,135 @@
+[1mdiff --git a/aulas/modulo3/mod03/.eslintrc.json b/aulas/modulo3/mod03/.eslintrc.json[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2fa205e[m
+[1m--- /dev/null[m
+[1m+++ b/aulas/modulo3/mod03/.eslintrc.json[m
+[36m@@ -0,0 +1,25 @@[m
+[32m+[m[32m{[m
+[32m+[m	[32m"parser": "babel-eslint",[m
+[32m+[m	[32m"extends": "airbnb",[m
+[32m+[m	[32m"env": {[m
+[32m+[m		[32m"browser": true,[m
+[32m+[m		[32m"jest": true[m
+[32m+[m	[32m},[m
+[32m+[m	[32m"plugins": ["react", "jsx-a11y", "import"],[m
+[32m+[m	[32m"rules": {[m
+[32m+[m		[32m"react/jsx-filename-extension": [[m
+[32m+[m			[32m"error",[m
+[32m+[m			[32m{[m
+[32m+[m				[32m"extensions": [".js", ".jsx"][m
+[32m+[m			[32m}[m
+[32m+[m		[32m],[m
+[32m+[m		[32m"global-require": "off",[m
+[32m+[m		[32m"import-prefer-default-export": "off",[m
+[32m+[m		[32m"no-unused-vars": [[m
+[32m+[m			[32m"error",[m
+[32m+[m			[32m{[m
+[32m+[m				[32m"argsIgnorePattern": "^_"[m
+[32m+[m			[32m}[m
+[32m+[m		[32m][m
+[32m+[m	[32m}[m
+[32m+[m[32m}[m
+[1mdiff --git a/aulas/modulo3/mod03/package.json b/aulas/modulo3/mod03/package.json[m
+[1mindex d1c0c52..821cf18 100644[m
+[1m--- a/aulas/modulo3/mod03/package.json[m
+[1m+++ b/aulas/modulo3/mod03/package.json[m
+[36m@@ -3,6 +3,7 @@[m
+   "version": "0.1.0",[m
+   "private": true,[m
+   "dependencies": {[m
+[32m+[m[32m    "prop-types": "^15.7.2",[m
+     "react": "^16.8.4",[m
+     "react-dom": "^16.8.4",[m
+     "react-redux": "^6.0.1",[m
+[1mdiff --git a/aulas/modulo3/mod03/src/App.js b/aulas/modulo3/mod03/src/App.js[m
+[1mindex cf6e51c..8d0c17c 100644[m
+[1m--- a/aulas/modulo3/mod03/src/App.js[m
+[1m+++ b/aulas/modulo3/mod03/src/App.js[m
+[36m@@ -1,11 +1,14 @@[m
+[32m+[m[32m//importação externa[m
+ import React from "react";[m
+ import { Provider } from "react-redux";[m
+ [m
+[32m+[m[32m//importação interna[m
+ import store from "./store";[m
+[32m+[m[32mimport TodoList from "./TodoList";[m
+ [m
+ const App = () => ([m
+   <Provider store={store}>[m
+[31m-    <h1>Hello World</h1>[m
+[32m+[m[32m    <TodoList />[m
+   </Provider>[m
+ );[m
+ export default App;[m
+[1mdiff --git a/aulas/modulo3/mod03/src/TodoList.js b/aulas/modulo3/mod03/src/TodoList.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5082bfb[m
+[1m--- /dev/null[m
+[1m+++ b/aulas/modulo3/mod03/src/TodoList.js[m
+[36m@@ -0,0 +1,24 @@[m
+[32m+[m[32mimport React from "react";[m
+[32m+[m[32mimport { connect } from "react-redux";[m
+[32m+[m[32mimport PropTypes from "prop-types";[m
+[32m+[m[32mconst TodoList = props => ([m
+[32m+[m[32m  <ul>[m
+[32m+[m[32m    {props.todos.map(todo => ([m
+[32m+[m[32m      <li key={todo.id}>{todo.text}</li>[m
+[32m+[m[32m    ))}[m
+[32m+[m[32m  </ul>[m
+[32m+[m[32m);[m
+[32m+[m
+[32m+[m[32mTodoList.propTypes = {[m
+[32m+[m[32m  todos: PropTypes.arrayOf([m
+[32m+[m[32m    PropTypes.shape({[m
+[32m+[m[32m      id: PropTypes.number,[m
+[32m+[m[32m      text: PropTypes.string[m
+[32m+[m[32m    })[m
+[32m+[m[32m  ).isRequired[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mconst mapStateToProps = state => ({[m
+[32m+[m[32m  todos: state.todos[m
+[32m+[m[32m});[m
+[32m+[m[32mexport default connect(mapStateToProps)(TodoList);[m
+[1mdiff --git a/aulas/modulo3/mod03/src/store/index.js b/aulas/modulo3/mod03/src/store/index.js[m
+[1mindex 31eef66..3c57e3c 100644[m
+[1m--- a/aulas/modulo3/mod03/src/store/index.js[m
+[1m+++ b/aulas/modulo3/mod03/src/store/index.js[m
+[36m@@ -1,5 +1,7 @@[m
+ import { createStore } from "redux";[m
+ [m
+[31m-const store = createStore(() => {});[m
+[32m+[m[32mimport reducers from "./reducers";[m
+[32m+[m
+[32m+[m[32mconst store = createStore(reducers);[m
+ [m
+ export default store;[m
+[1mdiff --git a/aulas/modulo3/mod03/src/store/reducers/index.js b/aulas/modulo3/mod03/src/store/reducers/index.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1ea2cb1[m
+[1m--- /dev/null[m
+[1m+++ b/aulas/modulo3/mod03/src/store/reducers/index.js[m
+[36m@@ -0,0 +1,7 @@[m
+[32m+[m[32mimport { combineReducers } from "redux";[m
+[32m+[m
+[32m+[m[32mimport todos from "./todos";[m
+[32m+[m
+[32m+[m[32mexport default combineReducers({[m
+[32m+[m[32m  todos[m
+[32m+[m[32m});[m
+[1mdiff --git a/aulas/modulo3/mod03/src/store/reducers/todos.js b/aulas/modulo3/mod03/src/store/reducers/todos.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..22970b7[m
+[1m--- /dev/null[m
+[1m+++ b/aulas/modulo3/mod03/src/store/reducers/todos.js[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32mconst INITIAL_STATE = [[m
+[32m+[m[32m  { id: 1, text: "fazer café" },[m
+[32m+[m[32m  { id: 2, text: "Estudar React" }[m
+[32m+[m[32m];[m
+[32m+[m[32mexport default function todos(state = INITIAL_STATE, action) {[m
+[32m+[m[32m  switch (action.type) {[m
+[32m+[m[32m    default:[m
+[32m+[m[32m      return state;[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
