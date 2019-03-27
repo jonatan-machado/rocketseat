@@ -1,6 +1,11 @@
+//importação externas
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+
+//importação internas
+import * as TodoActions from "./store/actions/todos";
 
 const TodoList = ({ todos, addTodo }) => (
   <Fragment>
@@ -27,9 +32,7 @@ const mapStateToProps = state => ({
   todos: state.todos
 });
 
-const mapDispatchToProps = dispatch => ({
-  addTodo: text => dispatch({ type: "ADD_TODO", payload: { text } })
-});
+const mapDispatchToProps = dispach => bindActionCreators(TodoActions, dispach);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
