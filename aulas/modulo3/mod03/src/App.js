@@ -5,11 +5,11 @@ import { Provider } from "react-redux";
 //importação interna
 import "./config/reactototron";
 import store from "./store";
-import TodoList from "./TodoList";
+import Routes from "./routes";
 
 const App = () => (
   <Provider store={store}>
-    <TodoList />
+    <Routes />
   </Provider>
 );
 export default App;
